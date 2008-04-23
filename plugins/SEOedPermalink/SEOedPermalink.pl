@@ -13,7 +13,7 @@ use MT::Template::Context;
 
 use vars qw( $MYNAME $VERSION );
 $MYNAME = 'SEOedUrl';
-$VERSION = '0.30 DEVEL';
+$VERSION = '0.31 DEVEL';
 
 ### Register a plugin
 use base qw( MT::Plugin );
@@ -102,7 +102,7 @@ sub entry_seoed_permalink {
     my $title = MT::Template::Context::_hdlr_entry_title(@_)
         or return;
     $title = encode_url( jcode( $title )->utf8 );
-    $title =~ s/%20/_/g;
+    $title =~ s/%20|%2F/_/ig;
 
     # include the utf8 encoded title string in permalink
     $permalink =~ s!/+$!/$title!;
@@ -110,10 +110,3 @@ sub entry_seoed_permalink {
 }
 
 1;
-
-__END__
-========================================================================
-2007/09/19  0.30    全面的に刷新
-2007/05/07  0.21    判定部分に urldecode を追加
-2007/04/24  0.20    大幅に単純化
-2007/04/23  0.10    初版作成
